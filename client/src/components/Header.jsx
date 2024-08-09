@@ -1,60 +1,100 @@
-import React from 'react';
-import { Navbar, TextInput, Button } from 'flowbite-react';
-import { Link, useLocation } from 'react-router-dom';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { FaMoon } from 'react-icons/fa';
+import React, {useState} from "react";
+import { Link,useLocation } from "react-router-dom";
+import {AiOutlineSearch} from "react-icons/ai"
+import {FaBars, FaMoon} from "react-icons/fa"
+import { Navbar } from "flowbite-react";
+
 
 export default function Header() {
-    const path = useLocation().pathname;
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    return (
-        <Navbar className='border-b-2 flex items-center justify-between px-4 py-2'>
-            <Link to='/' className='flex items-center text-lg font-semibold dark:text-white'>
-                <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-                    Sahand's
-                </span>
-                <span className='ml-2'>Blog</span>
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+  return (
+    <header className="flex items-center justify-between px-4 py-2 bg-white shadow-md">
+      {/* Logo */}
+      <div className="flex items-center space-x-2">
+        <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
+        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">Vivid</span>
+        <span className="text-xl font-bold text-black">India</span>
+        </Link>
+      </div>
+
+      {/* Search Bar */}
+      <div className="flex items-center mx-4">
+        <input
+          type="text"
+          placeholder="Search..."
+         
+          className="flex-grow px-4 py-2 border border-gray-300 rounded-l-md hidden lg:inline"
+        />
+        <button className="px-4 py-2 bg-gray-200 border-l border-gray-300 rounded-r-md">
+          <AiOutlineSearch/>
+          
+        </button>
+      </div>
+
+      {/* Dark Mode Toggle & Navigation */}
+      <div className="flex items-center space-x-4">
+       
+        <nav className="hidden md:flex space-x-4">
+          <Link to="/" className="text-black hover:text-purple-500">Home</Link>
+          <Link to="/about" className="text-black hover:text-purple-500">About</Link>
+          <Link to="/projects" className="text-black hover:text-purple-500">Projects</Link>
+        </nav>
+      </div>
+      <button className="p-2 bg-gray-200 rounded-full">
+          <FaMoon/>
+        </button>
+
+      {/* Sign-in Button */}
+      <Link
+        to="/signin"
+        className=" px-4 py-2 text-white rounded-md"
+        style={{
+          background: "linear-gradient(to right,#c4b5fd , #5b21b6)",
+        }}
+      >
+        Sign In
+      </Link>
+
+      
+
+
+      {/* Mobile Menu Icon */}
+      <button className="block md:hidden p-2 bg-gray-200 rounded-md"
+      onClick={toggleMenu}>
+        <FaBars/>
+      </button>
+      {/* Mobile Dropdown Menu */}
+      {isMenuOpen && (
+        <div className="absolute right-4 top-16 bg-white shadow-md rounded-md p-4 md:hidden">
+          <nav className="flex flex-col space-y-2">
+            <Link
+              to="/"
+              className="text-black hover:text-purple-500"
+              onClick={toggleMenu}
+            >
+              Home
             </Link>
-
-            <form className='relative flex-1 hidden lg:flex justify-center items-center'>
-                <TextInput
-                    type='text'
-                    placeholder='Search...'
-                    className='rounded-full pl-4 pr-10 py-2  w-100'
-                />
-                <AiOutlineSearch className=' right text-gray-500' />
-            </form>
-
-            <div className='flex items-center'>
-                <Button className='w-10 h-10 hidden sm:flex items-center justify-center' color='gray' pill>
-                    <FaMoon />
-                </Button>
-                <Link to='/Signin'>
-                    <Button gradientDuoTone='purpleToBlue' outline className='ml-4'>
-                        Sign In
-                    </Button>
-                </Link>
-            </div>
-
-            <Navbar.Toggle />
-
-            <Navbar.Collapse className='flex-1 justify-end'>
-                <Navbar.Link className={path === '/' ? 'text-blue-600' : ''}>
-                    <Link to='/' className='hover:text-blue-600'>
-                        Home
-                    </Link>
-                </Navbar.Link>
-                <Navbar.Link className={path === '/About' ? 'text-blue-600' : ''}>
-                    <Link to='/About' className='hover:text-blue-600'>
-                        About
-                    </Link>
-                </Navbar.Link>
-                <Navbar.Link className={path === '/Projects' ? 'text-blue-600' : ''}>
-                    <Link to='/Projects' className='hover:text-blue-600'>
-                        Projects
-                    </Link>
-                </Navbar.Link>
-            </Navbar.Collapse>
-        </Navbar>
-    );
+            <Link
+              to="/about"
+              className="text-black hover:text-purple-500"
+              onClick={toggleMenu}
+            >
+              About
+            </Link>
+            <Link
+              to="/projects"
+              className="text-black hover:text-purple-500"
+              onClick={toggleMenu}
+            >
+              Projects
+            </Link>
+          </nav>
+        </div>
+      )}
+    </header>
+  );
 }
