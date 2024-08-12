@@ -1,7 +1,46 @@
-import { TextInput, Label, Button } from "flowbite-react";
+import { TextInput, Label, Button, Alert, Spinner } from "flowbite-react";
 import React from 'react';
-import{Link} from "react-router-dom";
+import{Link,useNavigate} from "react-router-dom";
+import { useState } from "react";
+import { HiInformationCircle } from "react-icons/hi";
 export const Signup = () => {
+  const[formData,setFormData]=useState({});
+  const[errorMessage,setErrorMessage]=useState(null);
+  const[loading,setLoading]=useState(false);
+  const navigate=useNavigate();
+  const handleChange=(e)=>{
+    setFormData({...formData,[e.target.id]:e.target.value.trim()})};
+    const handleSubmit =async(e)=>{
+      e.preventDefault();
+      if(!formData.username||!formData.email||!formData.password){
+        return setErrorMessage('Please fill all the fields');
+      }
+      try{
+        setLoading(true);
+        setErrorMessage(null);
+        const res=await fetch('/api/auth/signup',
+        {
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body: JSON.stringify(formData),
+        });
+        const data=await res.json();
+        setLoading(false);
+        if(data.success===false){
+          return setErrorMessage(data.message);
+        }
+        if(res.ok){
+          navigate('/Signin');
+        }
+        
+      }catch(error){
+        setErrorMessage(data.message);
+        setLoading(false);
+      }
+    }
+  
   return (
     <div className='min-h-screen  mt-20'>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
@@ -17,13 +56,13 @@ export const Signup = () => {
         </div>
         {/*right*/}
         <div className='flex-1 bg-white p-5 rounded-lg shadow-lg z-index:10'>
-          <form className='flex flex-col gap-4'>
+          <form className='flex flex-col gap-4'onSubmit={handleSubmit}>
             <div>
               <Label value='Your Username'></Label>
                 <TextInput 
                   type='text'
                   placeholder='Username'
-                  id='username'/>
+                  id='username'onChange={handleChange}/>
               
             </div>
             <div>
@@ -31,7 +70,7 @@ export const Signup = () => {
                 <TextInput 
                   type='text'
                   placeholder='name@comapny.com'
-                  id='email'/>
+                  id='email'onChange={handleChange}/>
               
             </div>
             <div>
@@ -39,15 +78,27 @@ export const Signup = () => {
                 <TextInput 
                   type='password'
                   placeholder='Password'
-                  id='password'/>
+                  id='password'onChange={handleChange}/>
               
             </div>
-            <button type="button" class="px-4 py-2 text-white rounded-md w-full"
-            style={{
-              background:"linear-gradient(to right,#c4b5fd,#5b21b6)",
-            }}>
-               SignUp
-            </button>
+            <button
+  type="submit"
+  className="flex items-center justify-center px-4 py-2 text-white rounded-md w-full"
+  style={{
+    background: "linear-gradient(to right,#c4b5fd,#5b21b6)",
+  }}
+  disabled={loading}
+>
+  {loading ? (
+    <>
+      <Spinner size="sm" />
+      <span className="pl-3">Loading...</span>
+    </>
+  ) : (
+    "Sign Up"
+  )}
+</button>
+
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>
@@ -56,6 +107,13 @@ export const Signup = () => {
             <Link to='/Signin' className="text-blue-500">
             SignIn</Link>
           </div>
+          {
+            errorMessage &&
+            <div className="flex items-center p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+        <HiInformationCircle className="inline mr-2 w-5 h-5" />
+        <span>{errorMessage}</span>
+      </div>
+          }
         </div>
       </div>
       
