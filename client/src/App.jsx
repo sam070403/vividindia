@@ -7,10 +7,12 @@ import {Signin} from './pages/Signin'
 import {Signup} from './pages/Signup.jsx'
 import {Projects} from './pages/Projects'
 import Header from './components/Header'
+import Footer from './components/Footer'
 export default function App() {
   return (
     <BrowserRouter>
     <Header/>
+    
     <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/About" element={<About/>}/>
@@ -20,7 +22,7 @@ export default function App() {
       <Route path="/Projects" element={<Projects/>}/>
       
     </Routes>
-    
+    <Footer/>
     </BrowserRouter>
   )
 }
