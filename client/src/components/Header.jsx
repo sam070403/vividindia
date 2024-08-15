@@ -2,11 +2,12 @@ import React, {useState} from "react";
 import { Link,useLocation } from "react-router-dom";
 import {AiOutlineSearch} from "react-icons/ai"
 import {FaBars, FaMoon} from "react-icons/fa"
-import { Navbar } from "flowbite-react";
-
+import { Navbar,Dropdown,Avatar } from "flowbite-react";
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { currentUser } = useSelector((state) => state.user);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -49,15 +50,34 @@ export default function Header() {
         </button>
 
       {/* Sign-in Button */}
-      <Link
-        to="/signin"
-        className=" px-4 py-2 text-white rounded-md"
-        style={{
-          background: "linear-gradient(to right,#c4b5fd , #5b21b6)",
-        }}
-      >
-        Sign In
-      </Link>
+      {currentUser ? (
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              <Avatar alt="user" img={currentUser.profilePicture} rounded style={{ width: '40px', height: '40px' }} />
+
+            }
+          >
+            <Dropdown.Header>
+              <span className='block text-sm'>@{currentUser.username}</span>
+              <span className='block text-sm font-medium truncate'>
+                {currentUser.email}
+              </span>
+            </Dropdown.Header>
+            <Link to={'/dashboard?tab=profile'}>
+              <Dropdown.Item>Profile</Dropdown.Item>
+            </Link>
+            <Dropdown.Divider />
+            <Dropdown.Item >Sign out</Dropdown.Item>
+          </Dropdown>
+        ) : (
+          <Link to='/sign-in'>
+            <Button gradientDuoTone='purpleToBlue' outline>
+              Sign In
+            </Button>
+          </Link>
+        )}
 
       
 

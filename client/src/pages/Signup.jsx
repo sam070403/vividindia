@@ -3,6 +3,7 @@ import React from 'react';
 import{Link,useNavigate} from "react-router-dom";
 import { useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
+import OAuth from "../components/OAuth";
 export const Signup = () => {
   const[formData,setFormData]=useState({});
   const[errorMessage,setErrorMessage]=useState(null);
@@ -98,6 +99,7 @@ export const Signup = () => {
     "Sign Up"
   )}
 </button>
+<OAuth/>
 
           </form>
           <div className="flex gap-2 text-sm mt-5">

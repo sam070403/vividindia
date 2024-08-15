@@ -5,6 +5,7 @@ import { useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import { useDispatch,useSelector } from "react-redux";
 import { signInStart,signInSuccess,signInFailure } from "../redux/user/UserSlice";
+import OAuth from "../components/OAuth";
 export const Signin = () => {
   const[formData,setFormData]=useState({});
   const {loading,error:errorMessage}= useSelector (state => state.user);
@@ -92,6 +93,7 @@ export const Signin = () => {
     "Sign In"
   )}
 </button>
+<OAuth/>
 
           </form>
           <div className="flex gap-2 text-sm mt-5">
