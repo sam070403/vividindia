@@ -3,9 +3,12 @@ import userReducer from './user/UserSlice'
 import { version } from 'react';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { theme } from 'flowbite-react';
+import themeReducer from './theme/themeSlice';
 
 const rootReducer=combineReducers({
     user:userReducer,
+    theme:themeReducer,
 });
 
 const persistConfig={

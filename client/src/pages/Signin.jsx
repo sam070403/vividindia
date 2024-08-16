@@ -5,7 +5,6 @@ import { useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import { useDispatch,useSelector } from "react-redux";
 import { signInStart,signInSuccess,signInFailure } from "../redux/user/UserSlice";
-import OAuth from "../components/OAuth";
 export const Signin = () => {
   const[formData,setFormData]=useState({});
   const {loading,error:errorMessage}= useSelector (state => state.user);
@@ -50,7 +49,7 @@ export const Signin = () => {
         <div className='flex-1'>
         <Link to="/" className='font-bold dark:text-white text-4xl'>
         <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">Vivid</span>
-        <span className="text-4xl font-bold text-black">India</span>
+        <span className="text-4xl font-bold dark:text-white text-black">India</span>
         </Link>
         <p className='text-sm mt-5'>
           Fuel your curiosity. Expand your knowledge. Join our community today
@@ -60,7 +59,7 @@ export const Signin = () => {
         <div className='flex-1 bg-white p-5 rounded-lg shadow-lg z-index:10'>
           <form className='flex flex-col gap-4'onSubmit={handleSubmit}>
             <div>
-              <Label value='Your Username'></Label>
+              <Label value='Your Username'className="dark:text-black"></Label>
                 <TextInput 
                   type='text'
                   placeholder='Username'
@@ -69,7 +68,7 @@ export const Signin = () => {
             </div>
             
             <div>
-              <Label value='Your Password'></Label>
+              <Label value='Your Password'className="dark:text-black"></Label>
                 <TextInput 
                   type='password'
                   placeholder='Password'
@@ -93,10 +92,9 @@ export const Signin = () => {
     "Sign In"
   )}
 </button>
-<OAuth/>
 
           </form>
-          <div className="flex gap-2 text-sm mt-5">
+          <div className="flex gap-2 text-sm mt-5 dark:text-black">
             <span>
              Don't have an account?
             </span>

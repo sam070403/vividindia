@@ -6,6 +6,7 @@ export default {
     "node_modules/flowbite-react/**/*.{js,ts,jsx,tsx}",
     
   ],
+  darkMode:'class',
   theme: {
     extend: {},
   },
