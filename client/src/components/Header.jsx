@@ -146,6 +146,7 @@ export default function Header() {
           </nav>
         </div>
       )}
+      <hr className="border-t border-gray-200" />
     </header>
   );
 }
