@@ -7,7 +7,7 @@ import authRoutes from './routes/auth.route.js';
 
 dotenv.config();
 const { json }=pkg;
-mongoose.connect(process.env.MONGO)
+mongoose.connect("mongodb+srv://samyak07:Indianarmy07@vividindia.h3eft.mongodb.net/?retryWrites=true&w=majority&appName=vividIndia")
 .then(() => {
     console.log('MongoDB is connected');
 
