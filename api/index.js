@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import pkg  from 'body-parser';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
-
+import cookieParser from 'cookie-parser';
 dotenv.config();
 const { json }=pkg;
 mongoose.connect("mongodb+srv://samyak07:Indianarmy07@vividindia.h3eft.mongodb.net/?retryWrites=true&w=majority&appName=vividIndia")
@@ -16,7 +16,7 @@ mongoose.connect("mongodb+srv://samyak07:Indianarmy07@vividindia.h3eft.mongodb.n
     console.log(err);
 })
 const app=express();
-
+app.use(cookieParser());
 
 app.use(express.json());
 app.listen(3000,()=>{
