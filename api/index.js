@@ -5,6 +5,7 @@ import pkg  from 'body-parser';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 dotenv.config();
 const { json }=pkg;
 mongoose.connect("mongodb+srv://samyak07:Indianarmy07@vividindia.h3eft.mongodb.net/?retryWrites=true&w=majority&appName=vividIndia")
@@ -19,6 +20,10 @@ const app=express();
 app.use(cookieParser());
 
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:5173', // Frontend URL
+    credentials: true // Allow credentials (cookies)
+  }));
 app.listen(3000,()=>{
     console.log('Server is running on port 3000!!');
 });

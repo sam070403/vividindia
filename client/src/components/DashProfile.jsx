@@ -12,8 +12,10 @@ import {
 import { app } from '../firebase';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { updateStart,updateSuccess,updateFailure } from '../redux/user/UserSlice';
+import { updateStart,updateSuccess,updateFailure,deleteUserStart,deleteUserSuccess,deleteUserFailure } from '../redux/user/UserSlice';
 import { useDispatch } from 'react-redux';
+
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 
 export default function DashProfile() {
@@ -26,6 +28,7 @@ export default function DashProfile() {
     const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
     const [updateUserError, setUpdateUserError] = useState(null);
     const [formData, setFormData] = useState({});
+    const [showModal, setShowModal] = useState(false);
     const dispatch=useDispatch();
 
     const filePickerRef = useRef();
@@ -95,11 +98,12 @@ export default function DashProfile() {
       }
       try {
         dispatch(updateStart());
-        const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        const res = await fetch(`http://localhost:3000/api/user/update/${currentUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
+          credentials:'include',
           body: JSON.stringify(formData),
         });
         const data = await res.json();
@@ -116,6 +120,24 @@ export default function DashProfile() {
       }
     };
     console.log(formData);
+
+    const handleDeleteUser = async () => {
+      setShowModal(false);
+      try {
+        dispatch(deleteUserStart());
+        const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+          method: 'DELETE',
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          dispatch(deleteUserFailure(data.message));
+        } else {
+          dispatch(deleteUserSuccess(data));
+        }
+      } catch (error) {
+        dispatch(deleteUserFailure(error.message));
+      }
+    };
       
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
@@ -199,7 +221,7 @@ export default function DashProfile() {
           </button>
         </form>
         <div className='text-red-500 flex justify-between mt-5'>
-            <span>Delete account</span>
+            <span onClick={() => setShowModal(true)}>Delete account</span>
             <span>Sign Out</span>
         </div>
         {updateUserSuccess && (
@@ -213,6 +235,33 @@ export default function DashProfile() {
         <Alert color='failure' className='mt-5'>
           {updateUserError}
         </Alert>
+      )}
+      
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+            <div className="text-center">
+              <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+              <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+                Are you sure you want to delete your account?
+              </h3>
+              <div className="flex justify-center gap-4">
+                  <button
+                  className="bg-red-600 text-white font-bold py-2 px-4 rounded"
+                  onClick={handleDeleteUser}
+                >
+                  Yes, I'm sure
+                </button>
+                <button
+                  className="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded"
+                  onClick={() => setShowModal(false)}
+                >
+                  No, cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
       </div>
       
