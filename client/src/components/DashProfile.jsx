@@ -19,7 +19,7 @@ import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 
 export default function DashProfile() {
-    const { currentUser } = useSelector((state) => state.user);
+    const { currentUser,loading } = useSelector((state) => state.user);
     const [imageFile, setImageFile] = useState(null);
     const [imageFileUrl, setImageFileUrl] = useState(null);
     const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -232,9 +232,23 @@ export default function DashProfile() {
             style={{
               background: "linear-gradient(to right,#c4b5fd,#5b21b6)",
             }}
+            disabled={loading || imageFileUploading}
           >
-            Update
+           {loading ? 'Loading...' : 'Update'}
           </button>
+          {currentUser.isAdmin && (
+          <Link to={'/CreatePost'}>
+           <button
+            type="submit"
+            className="flex items-center justify-center px-4 py-2 text-white rounded-md w-full hover:outline"
+            
+            style={{
+              background: "linear-gradient(to right,#c4b5fd,#5b21b6)",
+            }}>
+              Create a Post
+            </button>
+          </Link>
+        )}
         </form>
         <div className='text-red-500 flex justify-between mt-5'>
             <span onClick={() => setShowModal(true)}>Delete account</span>
