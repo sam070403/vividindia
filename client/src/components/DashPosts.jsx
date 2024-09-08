@@ -126,7 +126,12 @@ export default function DashPosts() {
                       }}>Delete</button>
                   </td>
                   <td className='px-4 py-2 text-sm text-blue-600 cursor-pointer'>
-                    <button>Edit</button>
+                  <Link
+                      className='text-teal-500 hover:underline'
+                      to={`/UpdatePost/${post._id}`}
+                    >
+                      <span>Edit</span>
+                    </Link>
                   </td>
                 </tr>
               ))}
