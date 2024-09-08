@@ -36,10 +36,15 @@ export default function DashSidebar() {
         <Sidebar.ItemGroup className='flex flex-col gap-1'>
             <Link to='/dashboard?tab=profile'>
             <Sidebar.Item active={tab==='profile'} icon={HiUser}  
-            label={currentUser.isAdmin ? 'Admin' : 'User'}
-            labelColor='dark'
-             as='div'>
-                 Profile
+            as='div'>
+                <div className="flex justify-between items-center">
+                Profile
+                <span
+                  className={`ml-2 px-2 py-1 text-xs rounded-lg bg-gray-200 text-gray-800`}
+                >
+                  {currentUser.isAdmin ? 'Admin' : 'User'}
+                </span>
+              </div>
             </Sidebar.Item>
             </Link>
             {currentUser.isAdmin && (
