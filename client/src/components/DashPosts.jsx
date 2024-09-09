@@ -113,8 +113,10 @@ export default function DashPosts() {
                     </Link>
                   </td>
                   <td className='px-4 py-2 text-sm text-gray-900 dark:text-white'>
+                  <Link to={`/post/${post.slug}`}>
+                  {post.title}
+                  </Link>
                     
-                    {post.title}
                   </td>
                   <td className='px-4 py-2 text-sm text-gray-900 dark:text-gray-200'>
                     {post.category}

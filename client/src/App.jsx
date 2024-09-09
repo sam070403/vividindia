@@ -12,6 +12,7 @@ import Footer from './components/Footer'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute.jsx'
 import UpdatePost from './pages/UpdatePosts'
+import PostPage from './pages/PostsPage.jsx'
 export default function App() {
   return (
     <BrowserRouter>
@@ -30,7 +31,9 @@ export default function App() {
       <Route path="/UpdatePost/:postId" element={<UpdatePost />} />
 
       </Route>
+
       <Route path="/Projects" element={<Projects/>}/>
+      <Route path='/Post/:postSlug' element={<PostPage />} />
       
     </Routes>
     <Footer/>
