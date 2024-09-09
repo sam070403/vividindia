@@ -134,11 +134,11 @@ export default function UpdatePost() {
         value={formData.category}
         >
           <option value='uncategorized'>Select a category</option>
-          <option value='javascript'>Health & Well-Being</option>
-          <option value='reactjs'>Technology & Innovation</option>
-          <option value='nextjs'>Social Issues</option>
-          <option value='nextjs'>Culture & Society</option>
-          <option value='nextjs'>Economy & Finance</option>
+          <option value='Health & Well-Being'>Health & Well-Being</option>
+          <option value='Technology & Innovation'>Technology & Innovation</option>
+          <option value='Social Issues'>Social Issues</option>
+          <option value='Culture & Society'>Culture & Society</option>
+          <option value='Economy & Finance'>Economy & Finance</option>
         </Select>
       </div>
       <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
