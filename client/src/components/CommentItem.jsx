@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { set } from 'mongoose';
 import moment from 'moment';
+import { FaThumbsUp } from 'react-icons/fa';
 
-export default function CommentItem({comment}) {
+export default function CommentItem({comment,onLike}) {
     const [user, setUser] = useState({});
     const { currentUser } = useSelector((state) => state.user);
     useEffect(() => {
@@ -40,6 +41,29 @@ export default function CommentItem({comment}) {
           <span className='text-gray-500 text-xs'>
             {moment(comment.createdAt).fromNow()}
           </span>
-        </div></div></div>
+        </div>
+        
+        </div>
+        
+        <div className='flex items-center pt-2 text-xs border-t dark:border-gray-700 max-w-fit gap-2'>
+              <button
+                type='button'
+                onClick={() => onLike(comment._id)}
+                className={`text-gray-400 hover:text-blue-500 ${
+                  currentUser &&
+                  comment.likes.includes(currentUser._id) &&
+                  '!text-blue-500'
+                }`}
+              >
+                <FaThumbsUp className='text-sm' />
+              </button>
+              <p className='text-gray-400'>
+                {comment.numberOfLikes > 0 &&
+                  comment.numberOfLikes +
+                    ' ' +
+                    (comment.numberOfLikes === 1 ? 'like' : 'likes')}
+              </p>
+         </div>
+        </div>
   )
 }
