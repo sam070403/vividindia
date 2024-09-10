@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Textarea,Alert } from 'flowbite-react';
 import CommentItem from './CommentItem';
+import {HiOutlineExclamationCircle} from 'react-icons/hi'
 
 export default function CommentSection({postId}) {
 
@@ -11,6 +12,8 @@ export default function CommentSection({postId}) {
   const [comment, setComment] = useState('');
   const [commentError, setCommentError] = useState(null);
   const [comments, setComments] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -94,6 +97,25 @@ export default function CommentSection({postId}) {
     );
   };
 
+  const handleDelete = async (commentId) => {
+    setShowModal(false);
+    try {
+      if (!currentUser) {
+        navigate('/sign-in');
+        return;
+      }
+      const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setComments(comments.filter((comment) => comment._id !== commentId));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
 
 
   return (
@@ -169,8 +191,39 @@ Submit
               comment={comment}
               onLike={handleLike}
               onEdit={handleEdit}
+              onDelete={(commentId) => {
+                setShowModal(true);
+                setCommentToDelete(commentId);
+              }}
             />
           ))}
         </>
       )}
+{showModal && (
+<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+            <div className="text-center">
+              <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+              <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+                Are you sure you want to delete your comment?
+              </h3>
+              <div className="flex justify-center gap-4">
+                  <button
+                  className="bg-red-600 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => handleDelete(commentToDelete)}
+                >
+                  Yes, I'm sure
+                </button>
+                <button
+                  className="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded"
+                  onClick={() => setShowModal(false)}
+                >
+                  No, cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
+
 </div>)}

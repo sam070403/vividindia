@@ -6,7 +6,7 @@ import moment from 'moment';
 import { FaThumbsUp } from 'react-icons/fa';
 import { Textarea,Button } from 'flowbite-react';
 
-export default function CommentItem({comment,onLike,onEdit}) {
+export default function CommentItem({comment,onLike,onEdit,onDelete}) {
     const [user, setUser] = useState({});
     const { currentUser } = useSelector((state) => state.user);
     const [isEditing, setIsEditing] = useState(false);
