@@ -8,6 +8,7 @@ import postRoutes from './routes/post.route.js';
 import commentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import path from 'path';
 dotenv.config();
 const { json }=pkg;
 mongoose.connect("mongodb+srv://samyak07:Indianarmy07@vividindia.h3eft.mongodb.net/?retryWrites=true&w=majority&appName=vividIndia")
@@ -18,6 +19,8 @@ mongoose.connect("mongodb+srv://samyak07:Indianarmy07@vividindia.h3eft.mongodb.n
 .catch((err)=>{
     console.log(err);
 })
+
+const __dirname = path.resolve();
 const app=express();
 app.use(cookieParser());
 
@@ -28,6 +31,18 @@ app.use(cors({
   }));
 app.listen(3000,()=>{
     console.log('Server is running on port 3000!!');
+});
+
+
+app.use('/api/user', userRoutes);
+app.use('/api/auth',authRoutes);
+app.use('/api/post',postRoutes);
+app.use('/api/comment',commentRoutes);
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
 app.use((err,req,res,next)=>{
@@ -41,7 +56,3 @@ app.use((err,req,res,next)=>{
         }
     )
 });
-app.use('/api/user', userRoutes);
-app.use('/api/auth',authRoutes);
-app.use('/api/post',postRoutes);
-app.use('/api/comment',commentRoutes);
